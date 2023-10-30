@@ -1,4 +1,4 @@
-package br.com.kydrem.whatsapp.controller;
+package br.com.kydrem.whatsapp.websocket.controller;
 
 import java.util.Map;
 
@@ -8,7 +8,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-import br.com.kydrem.whatsapp.model.ChatMessage;
+import br.com.kydrem.whatsapp.websocket.model.ChatMessage;
 
 @Controller
 public class ChatController {
