@@ -1,5 +1,6 @@
 package br.com.kydrem.whatsapp.user.controller;
 
+import br.com.kydrem.whatsapp.core.authentication.AuthDTO;
 import br.com.kydrem.whatsapp.user.dto.UserDTO;
 import br.com.kydrem.whatsapp.user.service.UserService;
 import jakarta.validation.Valid;
@@ -16,9 +17,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/")
+    @PostMapping("/signup")
     public ResponseEntity<UserDTO> saveUser(@Valid @RequestBody UserDTO userDTO) {
         return userService.saveUser(userDTO);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody AuthDTO.LoginRequest userLogin) {
+        return userService.login(userLogin);
+    }
 }

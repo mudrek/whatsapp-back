@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: whatsapp
+  datasource:
+    url: jdbc:mysql://localhost:3306/whatsapp
+    username: user
+    password: pass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+
+rsa:
+  private-key: classpath:certs/private-key.pem
+  public-key: classpath:certs/public-key.pem
+
+logging:
+  level:
+    org:
+      springframework: INFO
