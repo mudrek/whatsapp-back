@@ -1,4 +1,4 @@
-package br.com.kydrem.whatsapp.websocket.model;
+package br.com.kydrem.whatsapp.core.websocket.model;
 
 public class ChatMessage {
     private String content;
