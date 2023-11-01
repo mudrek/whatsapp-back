@@ -1,17 +1,17 @@
-package br.com.kydrem.whatsapp.core.websocket.controller;
+package br.com.kydrem.whatsapp.core.websocket;
 
 import java.util.Map;
 
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
-import br.com.kydrem.whatsapp.core.websocket.model.ChatMessage;
-
 @Controller
-public class ChatController {
+public class WebsocketChatController {
 
     @MessageMapping("/chat.register")
     @SendTo("/topic/public")
@@ -29,4 +29,8 @@ public class ChatController {
         return chatMessage;
     }
 
+    @SubscribeMapping("/chat/{chatId}")
+    public void productIdSubscription(@DestinationVariable Long chatId) {
+        //Manage your product id subscription list e.g.
+    }
 }

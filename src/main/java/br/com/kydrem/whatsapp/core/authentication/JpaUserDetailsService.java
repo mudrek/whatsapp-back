@@ -1,6 +1,6 @@
 package br.com.kydrem.whatsapp.core.authentication;
 
-import br.com.kydrem.whatsapp.user.repository.UserRepository;
+import br.com.kydrem.whatsapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

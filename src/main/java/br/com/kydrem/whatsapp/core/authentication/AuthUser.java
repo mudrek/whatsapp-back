@@ -1,6 +1,6 @@
 package br.com.kydrem.whatsapp.core.authentication;
 
-import br.com.kydrem.whatsapp.user.model.User;
+import br.com.kydrem.whatsapp.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

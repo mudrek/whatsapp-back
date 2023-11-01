@@ -1,6 +1,5 @@
-package br.com.kydrem.whatsapp.user.repository;
+package br.com.kydrem.whatsapp.user;
 
-import br.com.kydrem.whatsapp.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

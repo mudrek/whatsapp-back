@@ -1,8 +1,6 @@
-package br.com.kydrem.whatsapp.user.controller;
+package br.com.kydrem.whatsapp.user;
 
 import br.com.kydrem.whatsapp.core.authentication.AuthDTO;
-import br.com.kydrem.whatsapp.user.dto.UserDTO;
-import br.com.kydrem.whatsapp.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

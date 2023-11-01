@@ -1,12 +1,9 @@
-package br.com.kydrem.whatsapp.user.service;
+package br.com.kydrem.whatsapp.user;
 
 import br.com.kydrem.whatsapp.core.authentication.AuthDTO;
 import br.com.kydrem.whatsapp.core.authentication.AuthService;
 import br.com.kydrem.whatsapp.core.authentication.AuthUser;
 import br.com.kydrem.whatsapp.core.exceptions.BadRequestException;
-import br.com.kydrem.whatsapp.user.dto.UserDTO;
-import br.com.kydrem.whatsapp.user.model.User;
-import br.com.kydrem.whatsapp.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -57,5 +55,17 @@ public class UserService {
         String token = authService.generateToken(authentication);
 
         return ResponseEntity.ok().header("Authorization", "Bearer " + token).build();
+    }
+
+    public User getLoggedUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Optional<User> loggedUserOptional = userRepository.findByUsername(username);
+
+        if(loggedUserOptional.isEmpty()) {
+            throw new BadRequestException("Usuário não está logado");
+        }
+
+        return loggedUserOptional.get();
     }
 }

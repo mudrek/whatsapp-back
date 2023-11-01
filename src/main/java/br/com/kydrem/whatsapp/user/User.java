@@ -1,11 +1,13 @@
-package br.com.kydrem.whatsapp.user.model;
+package br.com.kydrem.whatsapp.user;
 
-import br.com.kydrem.whatsapp.user.dto.UserDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import br.com.kydrem.whatsapp.chat.Chat;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.context.annotation.Lazy;
+
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
 @Data
@@ -14,11 +16,14 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String name;
     private String email;
     private String username;
     private String password;
+    @OneToMany(cascade=ALL)
+    @Lazy
+    private List<Chat> chatList;
 
     public User(UserDTO userDTO) {
         this.id = userDTO.getId();
