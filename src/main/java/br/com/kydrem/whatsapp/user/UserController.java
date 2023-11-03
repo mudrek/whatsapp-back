@@ -4,10 +4,7 @@ import br.com.kydrem.whatsapp.core.authentication.AuthDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -23,5 +20,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthDTO.LoginRequest userLogin) {
         return userService.login(userLogin);
+    }
+
+    @GetMapping("/searchUser")
+    public ResponseEntity searchByUsername(@RequestParam(name = "username") String username) {
+        return userService.findByUsername(username);
     }
 }

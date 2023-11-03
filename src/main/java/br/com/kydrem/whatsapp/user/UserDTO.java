@@ -1,6 +1,5 @@
 package br.com.kydrem.whatsapp.user;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +19,15 @@ public class UserDTO {
         this.name = user.getName();
         this.email = user.getEmail();
         this.username = user.getUsername();
+    }
+
+    public static UserDTO basicInfo(User user) {
+        return new UserDTO(user.getId(),
+                user.getName(),
+                null,
+                user.getUsername(),
+                null
+        );
     }
 
 }

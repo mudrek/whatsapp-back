@@ -57,6 +57,16 @@ public class UserService {
         return ResponseEntity.ok().header("Authorization", "Bearer " + token).build();
     }
 
+    public ResponseEntity<UserDTO> findByUsername(String username) {
+        Optional<User> searchedUserOptional = userRepository.findByUsername(username);
+
+        if (searchedUserOptional.isEmpty()) {
+            throw new BadRequestException("Não foi possível encontrar um usuário com esse username");
+        }
+
+        return ResponseEntity.ok(UserDTO.basicInfo(searchedUserOptional.get()));
+    }
+
     public User getLoggedUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 

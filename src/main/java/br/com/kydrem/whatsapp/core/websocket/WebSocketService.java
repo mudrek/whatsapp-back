@@ -11,6 +11,6 @@ public class WebSocketService {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     public void sendNewMessage(Message message, String chatId) {
-        this.simpMessagingTemplate.convertAndSend("/chat/" + chatId, message);
+        this.simpMessagingTemplate.convertAndSend("/chat." + chatId, message);
     }
 }
