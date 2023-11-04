@@ -54,7 +54,7 @@ public class UserService {
 
         String token = authService.generateToken(authentication);
 
-        return ResponseEntity.ok().header("Authorization", "Bearer " + token).build();
+        return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(new UserDTO(userDetails.getUser()));
     }
 
     public ResponseEntity<UserDTO> findByUsername(String username) {
@@ -72,7 +72,7 @@ public class UserService {
 
         Optional<User> loggedUserOptional = userRepository.findByUsername(username);
 
-        if(loggedUserOptional.isEmpty()) {
+        if (loggedUserOptional.isEmpty()) {
             throw new BadRequestException("Usuário não está logado");
         }
 
