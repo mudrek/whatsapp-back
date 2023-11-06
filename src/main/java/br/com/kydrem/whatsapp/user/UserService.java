@@ -43,7 +43,7 @@ public class UserService {
         return ResponseEntity.ok(new UserDTO(savedUser));
     }
 
-    public ResponseEntity login(AuthDTO.LoginRequest userLogin) {
+    public ResponseEntity<UserDTO> login(AuthDTO.LoginRequest userLogin) {
         Authentication authentication =
                 authenticationManager
                         .authenticate(new UsernamePasswordAuthenticationToken(

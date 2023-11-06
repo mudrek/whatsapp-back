@@ -1,10 +1,8 @@
 package br.com.kydrem.whatsapp.core.authentication;
 
-import br.com.kydrem.whatsapp.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -19,10 +17,10 @@ public class AuthService {
 
     @Autowired
     private JwtEncoder jwtEncoder;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRepository userRepository;
+    // @Autowired
+    // private PasswordEncoder passwordEncoder;
+    // @Autowired
+    // private UserRepository userRepository;
 
 
     public String generateToken(Authentication authentication) {

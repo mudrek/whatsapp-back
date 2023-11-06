@@ -1,10 +1,7 @@
 package br.com.kydrem.whatsapp.chat;
 
-import br.com.kydrem.whatsapp.messages.Message;
 import br.com.kydrem.whatsapp.messages.MessageDTO;
-import br.com.kydrem.whatsapp.user.User;
 import br.com.kydrem.whatsapp.user.UserDTO;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

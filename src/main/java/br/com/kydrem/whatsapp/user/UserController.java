@@ -18,12 +18,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthDTO.LoginRequest userLogin) {
+    public ResponseEntity<UserDTO> login(@RequestBody AuthDTO.LoginRequest userLogin) {
         return userService.login(userLogin);
     }
 
     @GetMapping("/searchUser")
-    public ResponseEntity searchByUsername(@RequestParam(name = "username") String username) {
+    public ResponseEntity<UserDTO> searchByUsername(@RequestParam(name = "username") String username) {
         return userService.findByUsername(username);
     }
 }
