@@ -41,7 +41,6 @@ public class SecurityConfig {
     @Autowired
     private JpaUserDetailsService userDetailsService;
 
-
     @Bean
     public AuthenticationManager authManager() {
 
@@ -52,7 +51,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
+            throws Exception {
 
         return http
                 .csrf(csrf -> {
@@ -61,8 +61,9 @@ public class SecurityConfig {
                 .cors(cors -> corsConfigurationSource())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/websocket/**").permitAll();
-                    auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers("/user/**").permitAll();
+                    auth.requestMatchers("/user/login").permitAll();
+                    auth.requestMatchers("/user/signup").permitAll();
+                    auth.requestMatchers("/user/**").authenticated();
                     auth.requestMatchers("/chat/**").authenticated();
                     auth.anyRequest().authenticated();
                 })
@@ -92,7 +93,8 @@ public class SecurityConfig {
 
     @Bean
     JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaKeyConfigProperties.publicKey()).privateKey(rsaKeyConfigProperties.privateKey()).build();
+        JWK jwk = new RSAKey.Builder(rsaKeyConfigProperties.publicKey()).privateKey(rsaKeyConfigProperties.privateKey())
+                .build();
 
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
@@ -103,4 +105,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-

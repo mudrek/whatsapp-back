@@ -2,6 +2,9 @@ package br.com.kydrem.whatsapp.user;
 
 import br.com.kydrem.whatsapp.core.authentication.AuthDTO;
 import jakarta.validation.Valid;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/searchUser")
-    public ResponseEntity<UserDTO> searchByUsername(@RequestParam(name = "username") String username) {
-        return userService.findByUsername(username);
+    public ResponseEntity<List<UserDTO>> searchByUsername(@RequestParam(name = "username") String username) {
+        return userService.findUsersByUsername(username);
     }
 }

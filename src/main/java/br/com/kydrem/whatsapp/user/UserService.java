@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -31,7 +32,8 @@ public class UserService {
     BCryptPasswordEncoder passwordEncoder;
 
     public ResponseEntity<UserDTO> saveUser(UserDTO userDTO) {
-        List<User> verifyRegisteredAccounts = userRepository.findByUsernameOrEmail(userDTO.getUsername(), userDTO.getEmail());
+        List<User> verifyRegisteredAccounts = userRepository.findByUsernameOrEmail(userDTO.getUsername(),
+                userDTO.getEmail());
         if (!verifyRegisteredAccounts.isEmpty()) {
             throw new BadRequestException("Email ou Username já está sendo utilizado");
         }
@@ -44,11 +46,10 @@ public class UserService {
     }
 
     public ResponseEntity<UserDTO> login(AuthDTO.LoginRequest userLogin) {
-        Authentication authentication =
-                authenticationManager
-                        .authenticate(new UsernamePasswordAuthenticationToken(
-                                userLogin.username(),
-                                userLogin.password()));
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        userLogin.username(),
+                        userLogin.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         AuthUser userDetails = (AuthUser) authentication.getPrincipal();
 
@@ -57,14 +58,18 @@ public class UserService {
         return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(new UserDTO(userDetails.getUser()));
     }
 
-    public ResponseEntity<UserDTO> findByUsername(String username) {
-        Optional<User> searchedUserOptional = userRepository.findByUsername(username);
+    public ResponseEntity<List<UserDTO>> findUsersByUsername(String username) {
+        Optional<List<User>> searchedUserOptional = userRepository.findUsersByUsername(username);
 
         if (searchedUserOptional.isEmpty()) {
             throw new BadRequestException("Não foi possível encontrar um usuário com esse username");
         }
 
-        return ResponseEntity.ok(UserDTO.basicInfo(searchedUserOptional.get()));
+        List<UserDTO> usersDTO = searchedUserOptional.get().stream().map(user -> {
+                        return UserDTO.basicInfo(user);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(usersDTO);
     }
 
     public User getLoggedUser() {
