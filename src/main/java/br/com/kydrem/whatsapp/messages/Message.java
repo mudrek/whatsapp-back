@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
 import org.springframework.context.annotation.Lazy;
 
 @Entity
@@ -22,6 +25,7 @@ public class Message {
     private String text;
     @ManyToOne
     private User sender;
+    private LocalDateTime createdAt;
 
     public Message(MessageDTO messageDTO) {
         this.id = messageDTO.getId();

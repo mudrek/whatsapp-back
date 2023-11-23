@@ -27,7 +27,7 @@ public class Chat {
     public Chat(ChatDTO chatDTO) {
         this.id = chatDTO.getId();
         this.fromUser = chatDTO.getFromUser() != null ? new User(chatDTO.getFromUser()) : null;
-        this.toUser =chatDTO.getToUser() != null ? new User(chatDTO.getToUser()) : null;
+        this.toUser = chatDTO.getToUser() != null ? new User(chatDTO.getToUser()) : null;
         this.messageList = chatDTO.getMessageList() != null ? chatDTO.getMessageList().stream().map(Message::new).toList() : null;
     }
 }

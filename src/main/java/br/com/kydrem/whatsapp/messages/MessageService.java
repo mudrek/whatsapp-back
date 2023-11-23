@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -55,10 +56,12 @@ public class MessageService {
         Message message = new Message(messageDTO);
         message.setSender(loggedUser);
         message.setChat(chatOptional.get());
+        message.setCreatedAt(LocalDateTime.now());
 
         Message savedMessage = messageRepository.save(message);
 
         webSocketService.sendNewMessage(savedMessage, savedMessage.getChat().getId().toString());
+        webSocketService.notifyChatsUsers(message.getChat().getFromUser(), message.getChat().getToUser());
 
         return ResponseEntity.ok(new MessageDTO(savedMessage));
     }
