@@ -5,21 +5,20 @@ import br.com.kydrem.whatsapp.chat.ChatRepository;
 import br.com.kydrem.whatsapp.core.exceptions.BadRequestException;
 import br.com.kydrem.whatsapp.core.websocket.WebSocketService;
 import br.com.kydrem.whatsapp.user.User;
-import br.com.kydrem.whatsapp.user.UserRepository;
 import br.com.kydrem.whatsapp.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private UserService userService;
     @Autowired
@@ -28,28 +27,17 @@ public class MessageService {
     private WebSocketService webSocketService;
 
     public ResponseEntity<MessageDTO> sendMessage(MessageDTO messageDTO) {
-        if(messageDTO.getChat() == null) {
+        if (messageDTO.getChat() == null) {
             throw new BadRequestException("Não foi fornecido o chat");
         }
-        if(messageDTO.getSender() == null) {
-            throw new BadRequestException("Não foi fornecido quem enviou a mensagem");
-        }
-        if(messageDTO.getText().isEmpty()) {
+        if (messageDTO.getText().isEmpty()) {
             throw new BadRequestException("Mensagem em branco");
         }
 
-        Optional<User> senderUserOptional = userRepository.findById(messageDTO.getSender().getId());
-        if(senderUserOptional.isEmpty()) {
-            throw new BadRequestException("Usuário não encontrado");
-        }
-
         User loggedUser = userService.getLoggedUser();
-        if(senderUserOptional.get().getId() != loggedUser.getId()) {
-            throw new BadRequestException("Sender não é o usuário logado");
-        }
 
         Optional<Chat> chatOptional = chatRepository.findById(messageDTO.getChat().getId());
-        if(chatOptional.isEmpty()) {
+        if (chatOptional.isEmpty()) {
             throw new BadRequestException("Não foi encontrado o chat");
         }
 
@@ -60,9 +48,19 @@ public class MessageService {
 
         Message savedMessage = messageRepository.save(message);
 
-        webSocketService.sendNewMessage(savedMessage, savedMessage.getChat().getId().toString());
+        final List<MessageDTO> feedChat = findAllMessageFromChatAndUser(message.getChat().getId());
+
         webSocketService.notifyChatsUsers(message.getChat().getFromUser(), message.getChat().getToUser());
+        webSocketService.notifyMessageUsers(message.getChat().getId(), feedChat);
 
         return ResponseEntity.ok(new MessageDTO(savedMessage));
+    }
+
+    public List<MessageDTO> findAllMessageFromChatAndUser(Long chatId) {
+        User loggedUser = userService.getLoggedUser();
+
+        List<Message> messageList = messageRepository.findAllMessageFromChatAndUser(chatId, loggedUser.getId());
+
+        return messageList.stream().map((message) -> new MessageDTO(message)).collect(Collectors.toList());
     }
 }

@@ -31,6 +31,5 @@ public class Message {
         this.id = messageDTO.getId();
         this.chat = new Chat(messageDTO.getChat());
         this.text = messageDTO.getText();
-        this.sender = new User(messageDTO.getSender());
     }
 }
