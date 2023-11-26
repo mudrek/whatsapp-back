@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,11 +24,14 @@ public class Chat {
     private User toUser;
     @OneToMany
     private List<Message> messageList;
+    private LocalDateTime lastMessageUpdate;
 
     public Chat(ChatDTO chatDTO) {
         this.id = chatDTO.getId();
         this.fromUser = chatDTO.getFromUser() != null ? new User(chatDTO.getFromUser()) : null;
         this.toUser = chatDTO.getToUser() != null ? new User(chatDTO.getToUser()) : null;
-        this.messageList = chatDTO.getMessageList() != null ? chatDTO.getMessageList().stream().map(Message::new).toList() : null;
+        this.messageList = chatDTO.getMessageList() != null
+                ? chatDTO.getMessageList().stream().map(Message::new).toList()
+                : null;
     }
 }

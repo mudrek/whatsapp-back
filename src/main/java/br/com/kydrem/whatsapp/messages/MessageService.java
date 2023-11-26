@@ -48,6 +48,10 @@ public class MessageService {
 
         Message savedMessage = messageRepository.save(message);
 
+        Chat chat = chatOptional.get();
+        chat.setLastMessageUpdate(LocalDateTime.now());
+        chatRepository.save(chat);
+
         final List<MessageDTO> feedChat = findAllMessageFromChatAndUser(message.getChat().getId());
 
         webSocketService.notifyChatsUsers(message.getChat().getFromUser(), message.getChat().getToUser());
